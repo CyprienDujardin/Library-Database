@@ -1,0 +1,138 @@
+
+**Ressource**
+
+    Type : {Livre, Film, Enregistrement Musical},
+    Code : Integer #unique,
+    Titre : String,
+    Date_apparition : Date,
+    CodeClassification : String,
+    
+Ressource est une classe mère pour les tables Enregistrement Musical, Film et Livre
+Ressource est une classe abstraite
+
+**Genre**
+
+    Nom : String,
+
+
+**Editeur**
+
+    Nom : String,
+
+
+
+**Contributeur**
+
+    Nom : String ,
+    Prénom : String ,
+    Date_naissance : Date,
+
+On définit Contributeur de tel sorte qu'il soit Compositeur, Auteur, Acteur , Réalisateur ou Interprète
+Les contributeur d'un livre sont Auteur,
+Ceux d'un film sont soit réalisateur soit Acteur,
+Ceux d'un enregistrement musical sont soit compositeur ou interprète.
+
+**Nationalité**
+
+    Nom : String,
+
+
+
+**Livre**
+
+*Classe fille de Ressource*
+
+    ISBN : String #unique ,
+    Résumé : String ,
+
+
+**Enregistrement Musical**
+
+*Classe fille de Ressource*
+
+    Longueur : Time ,
+    
+
+
+**Film**
+
+*Classe fille de Ressource*
+
+    Langue : String ,
+    Longueur : Time ,
+    Synopsis : String,
+    
+
+
+
+
+**Exemplaire**
+
+    CodeDocument : Integer ,
+    NumExemplaire : Integer , 
+    Prix : Integer,
+    
+
+
+
+
+**Disponibilité**
+
+    Dispo : {Emprunté, Réservé, Libre} ,
+
+
+
+**Etat**
+
+    Etat : {Neuf, Bon, Abîmé, Perdu} ,
+
+
+
+**Compte**
+
+    login : String ,
+    MDP : String ,
+    Mail : String ,
+    
+
+Compte est une classe mère de Personnel et de Adhérent
+
+
+
+**Adhérent**
+
+*Classe fille de Compte*
+
+    Num_carte : Integer #unique,
+    Num_tél : String ,
+    Adhésion : {Passée, Actuelle} ,
+    Nb_emprunt : Integer ,
+    Nb_sanctions : Integer ,
+    Eligibilité : {OK, Suspendu, Blacklisté} ,
+    
+**Personnel**
+
+*Hérite de Compte*
+
+    Adresse : String ,
+
+**Prêt**
+
+    DatePret : Date,
+    DuréeMax : Time,
+    DateRendu : Date
+
+
+
+Retard() :  Des sanctions sont prises si il y a un retard
+Etat() : Prend des sanctions si le livre est rendu dans un mauavais été
+
+**Sanction**
+
+    Type : {InterditEmprunt, Remboursement, Blackliste} ,
+    Emprunt : Emprunt ,
+    Début_suspension : Date ,
+    Durée_suspension : Time ,
+
+
+

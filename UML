@@ -1,0 +1,182 @@
+@startuml
+hide circle
+
+
+abstract (Ressource){
+
+    Type : {Livre, Film, Enregistrement Musical},
+    Code : Integer {key}
+    Titre : String
+    Date_apparition : Date
+    CodeClassification : String
+}
+    
+
+class Genre{
+
+    Nom : String
+}
+
+class Editeur{
+
+    Nom : String
+}
+
+
+class Contributeur{
+
+    Nom : String 
+    Prénom : String 
+    Date_naissance : Date
+}
+
+
+
+class Nationalité{
+
+    Nom : String
+
+}
+
+class Livre{
+
+
+
+    ISBN : String #unique 
+    Résumé : String 
+
+}
+class EnregistrementMusical{
+
+
+
+    Longueur : Time 
+   
+}
+
+class Film {
+
+
+
+    Langue : String 
+    Longueur : Time 
+    Synopsis : String
+    
+}
+
+
+
+class Exemplaire{
+
+    CodeDocument : Integer 
+    NumExemplaire : Integer 
+    Prix : Integer
+}
+
+
+
+
+class Disponibilité{
+
+    Dispo : {Emprunté, Réservé, Libre} 
+}
+
+
+class Etat{
+
+    Etat : {Neuf, Bon, Abîmé, Perdu} 
+
+}
+
+class Compte{
+
+    login : String 
+    MDP : String 
+    Mail : String 
+    
+}
+
+
+
+
+class Adhérent{
+
+
+    Num_carte : Integer #unique
+    Num_tél : String 
+    Adhésion : {Passée, Actuelle} 
+    Nb_emprunt : Integer 
+    Nb_sanctions : Integer 
+    Eligibilité : {OK, Suspendu, Blacklisté} 
+}
+
+
+class Personnel{
+
+
+    Adresse : String 
+}
+
+class Prêt{
+
+    DatePret : Date
+    DuréeMax : Time
+    DateRendu : Date
+Retard() 
+Etat() 
+}
+
+
+'
+
+class Sanction{
+
+    Type : {InterditEmprunt, Remboursement, Blackliste} 
+    Emprunt : Ressource 
+    Début_suspension : Date 
+    Durée_suspension : Time 
+
+
+}
+
+
+Ressource "*" - "1" Editeur : est édité par >
+Genre "1..*" - "*" Ressource : est du >
+
+Auteur "*" -- "*" Livre : a écrit >
+Acteur "*" -- "*" Film : a joué dans >
+Réalisateur "*" -- "*" Film : a réalisé >
+Compositeur "*" -- "*" EnregistrementMusical : a composé >
+Interprète "*" -- "*" EnregistrementMusical : a interprété >
+
+Adhérent "*" -- "*" Exemplaire
+(Adhérent,Exemplaire) .. Prêt
+
+Adhérent "1..*" -- "*" Ressource
+(Adhérent,Ressource) .. Réservation
+
+Sanction "*" -- "1" Adhérent
+Disponibilité "1" -- "1" Exemplaire 
+Etat "1" -- "1" Exemplaire
+
+
+Nationalité "1" --- "*" Contributeur : est >
+
+
+
+
+
+Contributeur <|-down-- Auteur
+Contributeur <|-down-- Acteur
+Contributeur <|-down-- Réalisateur
+Contributeur <|-down- Compositeur
+Contributeur <|-down- Interprète
+Ressource <|-down--- Film
+Ressource <|-down--- Livre
+Ressource <|-down- EnregistrementMusical
+
+
+Compte <|-down- Adhérent
+Compte <|-down- Personnel
+Ressource *-up- "1..*" Exemplaire
+@enduml

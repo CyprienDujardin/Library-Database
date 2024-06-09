@@ -1,0 +1,73 @@
+
+nationalité(#Nom :  Varchar)
+
+
+Contributeur(#IDContributeur : int, Nom : Varchar, Prenom : Varchar, Date_naissance : Date, Nationalité => Nationalité)
+
+
+Chacunes des 5 tables suivantes est en référence à par rapport à Contributeur (On ne modifie pas par classe mère car on peut avoir un Compositeur-interprète et un Acteur-Réalisateur). 
+
+Auteur (#IDContributeur =>Contributeur)
+Acteur(#IDContributeur =>Contributeur)
+Réalisateur(#IDContributeur =>Contributeur)
+Interprète(#IDContributeur =>Contributeur)
+Compositeur(#IDContributeur =>Contributeur)
+
+
+Jouer(#IDFilm => Film, #IDActeur => Acteur)
+Réaliser ( #IDFilm => Film, #IDReal => Realisateur)
+Interpreter (#IDEnreMus => EnregistrementMusical, #IDinteprete => Interprète)
+Composer(#IDEnreMus => EnregistrementMusical, #IDComp => Compositeur )
+Ecrire(#IDLivre => ISBN, #IDAut => Auteur)
+
+Genre(#nom :  Varchar)
+Editeur( #IDEditeur : int, nom : Varchar)
+
+
+
+Ressources(#Code: int, Type : {Livre, Film, Enregistrement musical}, Titre :Varchar, Date_appartition : Date, CodeClassification : Varchar, IDEditeur => Editeur)
+
+
+
+AssocGenre(#nom => Genre, #Code => Ressources)
+
+
+
+Chacunes des 3 tables suivantes est en référence à par rapport à Ressources.
+
+
+
+Livre(#ISBN: Varchar, Résumé : Varchar, #ISBN => IDRessources)
+
+Film(Langue : Varchar, Longueur : Time, Synopsis : Varchar, #IDFilm => Ressources)
+
+EnregistrementMusical(Longueur : Time, #IDEnreMus => Ressources)
+
+
+
+
+
+
+On transforme Compte par classe fille, Adhérent et Personnel prennent donc les champs de Compte 
+
+
+
+
+Personnel ( #login : Varchar, Adresse : Varchar, MDP : Varchar, Mail : Varchar)
+
+
+Adhérent(#Numcarte : int, Numtel : Varchar, Adhésion : {Passé, Actuel}, Nb_emprunt : int, Nb_sanction : int, Eligibilité : {Ok, Suspendu, Blacklisté}, login : Varchar, MDP : Varchar, Mail : Varchar)
+
+Exemplaire(#CodeDocument : Integer, #Code=>Ressources , NumExemplaire : int, Prix : int, Etat => Etat, Disponibilité => Disponibilité)
+
+AssocReservation(#num_carte => Adhérent, #Code => Ressources)
+
+Etat(Etat : {Neuf, Bon , Abimé, Perdu})
+
+AssocPrêt(#num_carte => Adhérent, #CodeDocument => Exemplaire.CodeDocument, Datepret : Date, DuréeMax : Time, DateRendu : Date) )
+
+Disponibilité(Dispo : (Emprunté, Réservé, Libre})
+
+Sanction(Type : {InterditEmprunt, Remboursement, Blackliste}, Emprunt => Exemplaire, Début suspension : Date, Durée suspension : Time, IDAdhérent => Adhérent)
+
+
